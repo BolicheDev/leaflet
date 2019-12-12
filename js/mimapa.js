@@ -5,13 +5,18 @@ window.onload = init;
 
 var map, iglesia, colegio;
 
-var customIcon = new L.Icon({
-    iconUrl: 'images/elogo.png',
-    iconSize: [30, 45],
-    iconAnchor: [15, 45]
+var iconoBase = L.Icon.extend({
+    options: {
+        shadowUrl: 'images/base4.png',
+        iconSize: [30, 45],
+        iconAnchor: [15, 45],
+        shadowSize: [40, 10],
+        shadowAnchor: [20, 2],
+        popupAnchor: [0, -45],
+    }
 });
 
-
+var customIcon = new iconoBase({ iconUrl: 'images/elogosolo2.png' });
 
 function init() {
     document.getElementById("borrar").addEventListener("click", borrar);
@@ -30,29 +35,25 @@ function cargarDatos() {
 
     var puntosInteres = L.layerGroup().addTo(map);
 
-    var prueba = L.AwesomeMarkers.icon({
-        markerColor: 'red', // see colors above
-        icon: 'coffee' //http://fortawesome.github.io/Font-Awesome/icons/
-    });
-
     iglesia = L.geoJSON(geoJson, {
         //onEachFeature: verMisPunto,
         filter: function(feature, layer) {
             return feature.properties.tipo == "iglesia";
         },
         pointToLayer: function(feature, latlng) {
-            return L.marker(latlng, {
-                icon: prueba
-            }).on('mouseover', function() {
-                this.bindPopup(feature.properties.Name).openPopup();
-            });
+            var smallIcon = customIcon;
+            return L.marker(latlng, { icon: smallIcon });
         }
     })
 
     colegio = L.geoJSON(geoJson, {
-        //onEachFeature: verMisPunto,
         filter: function(feature, layer) {
             return feature.properties.tipo == "colegio";
+        },
+        onEachFeature: verMisPunto,
+        pointToLayer: function(feature, latlng) {
+            var smallIcon = customIcon;
+            return L.marker(latlng, { icon: smallIcon });
         }
     })
 
@@ -63,8 +64,7 @@ function verMisPunto(feature, layer) {
     layer.bindPopup("<div style='texto-aling:center'><h3>" +
         feature.properties.nombre +
         "</h3></div>");
-    console.log(feature);
-    //L.marker([feature.geometry.coordinates[1], feature.geometry.coordinates[0]], { icon: customIcon }).addTo(map);
+    //console.log(feature);
 }
 
 function borrar() {
