@@ -16,7 +16,6 @@ var arrayGlobales = {
     'popup': L.popup(),
     'eventos': {}
 }
-var eventos = {};
 
 var iconos = {
     'colores': {
@@ -65,7 +64,7 @@ function loadMap() {
 
 function loadDate() {
     for (let categoria in arrayGlobales.categorias) {
-        let elementos = L.geoJSON(eventos, {
+        let elementos = L.geoJSON(arrayGlobales.eventos, {
             filter: function(feature, layer) {
                 return feature.properties.categoria == categoria;
             },
@@ -128,11 +127,11 @@ function loadJson() {
         method: 'POST',
         type: 'json',
         beforeSend: function() {
-            eventos = {};
+            arrayGlobales.eventos = {};
         },
         success: function(result) {
             var resultado = JSON.parse(result);
-            eventos = resultado;
+            arrayGlobales.eventos = resultado;
             loadDate();
         },
         error: function(jqXHR, textStatus, errorThrown) {
