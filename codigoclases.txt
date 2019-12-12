@@ -1,0 +1,17 @@
+.sprite { background: url('sprite.png') no-repeat top left; width: 2416px; height: 4204px;  } 
+.sprite.amarillo { background-position: 0 0; } 
+.sprite.azul { background-position: -2426px 0; } 
+.sprite.morado { background-position: -4852px 0; } 
+.sprite.naranja { background-position: -7278px 0; } 
+.sprite.rojo { background-position: -9704px 0; } 
+.sprite.rosa { background-position: -12130px 0; } 
+.sprite.verde { background-position: -14556px 0; } 
+
+
+<div class='sprite amarillo'></div>
+<div class='sprite azul'></div>
+<div class='sprite morado'></div>
+<div class='sprite naranja'></div>
+<div class='sprite rojo'></div>
+<div class='sprite rosa'></div>
+<div class='sprite verde'></div>

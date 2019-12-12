@@ -5,25 +5,45 @@ window.onload = init;
 
 var map, iglesia, colegio;
 
-var iconoBase = L.Icon.extend({
-    options: {
-        shadowUrl: 'images/base4.png',
-        iconSize: [30, 45],
-        iconAnchor: [15, 45],
-        shadowSize: [40, 10],
-        shadowAnchor: [20, 2],
-        popupAnchor: [0, -45],
+var arrayGlobales = {
+    'categorias': {
+        'iglesia': '',
+        'colegio': '',
+        'Forklore': '',
+        'F. Patronales': '',
+        'Exposiciones': '',
+        'Teatro': '',
+        'Cine': ''
     }
-});
+}
 
-var customIcon = new iconoBase({ iconUrl: 'images/elogosolo2.png' });
+var iconos = {
+    'colores': {
+        'iglesia': 'amarillo',
+        'colegio': 'azul',
+        'Forklore': 'naranja',
+        'Cine': 'morado',
+        'F. Patronales': 'rojo',
+        'Exposiciones': 'rosa',
+        'Teatro': 'verde'
+    },
+    'icono': function(categoria) {
+        return L.divIcon({
+            className: 'sprite ' + this.colores[categoria],
+            iconSize: [26, 45],
+            iconAnchor: [13, 45],
+            popupAnchor: [0, -45]
+        });
+    }
+}
 
 function init() {
     document.getElementById("borrar").addEventListener("click", borrar);
-    cargarDatos();
+    loadMap();
+    loadDate();
 }
 
-function cargarDatos() {
+function loadMap() {
     map = L.map('mapa', {
         center: [39.38859722916341, -3.21028234629],
         zoom: 14
@@ -32,30 +52,43 @@ function cargarDatos() {
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attibution: '&copy;<a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(map);
+}
 
+function loadDate() {
     var puntosInteres = L.layerGroup().addTo(map);
 
-    iglesia = L.geoJSON(geoJson, {
-        //onEachFeature: verMisPunto,
-        filter: function(feature, layer) {
-            return feature.properties.tipo == "iglesia";
-        },
-        pointToLayer: function(feature, latlng) {
-            var smallIcon = customIcon;
-            return L.marker(latlng, { icon: smallIcon });
-        }
-    })
+    for (let categoria in arrayGlobales.categorias) {
+        let elementos = L.geoJSON(geoJson, {
+            filter: function(feature, layer) {
+                return feature.properties.tipo == categoria;
+            },
+            onEachFeature: verMisPunto,
+            pointToLayer: function(feature, latlng) {
+                return L.marker(latlng, { icon: iconos.icono(categoria) });
+            }
+        })
+        arrayGlobales.categorias[categoria] = elementos;
+    }
+    /*
+        iglesia = L.geoJSON(geoJson, {
+            filter: function(feature, layer) {
+                return feature.properties.tipo == "iglesia";
+            },
+            onEachFeature: verMisPunto,
+            pointToLayer: function(feature, latlng) {
+                return L.marker(latlng, { icon: iconos.icono('azul') });
+            }
+        })
 
-    colegio = L.geoJSON(geoJson, {
-        filter: function(feature, layer) {
-            return feature.properties.tipo == "colegio";
-        },
-        onEachFeature: verMisPunto,
-        pointToLayer: function(feature, latlng) {
-            var smallIcon = customIcon;
-            return L.marker(latlng, { icon: smallIcon });
-        }
-    })
+        colegio = L.geoJSON(geoJson, {
+            filter: function(feature, layer) {
+                return feature.properties.tipo == "colegio";
+            },
+            onEachFeature: verMisPunto,
+            pointToLayer: function(feature, latlng) {
+                return L.marker(latlng, { icon: iconos.icono('rojo') });
+            }
+        })*/
 
     puntosInteres.addLayer(iglesia);
 }
@@ -64,7 +97,6 @@ function verMisPunto(feature, layer) {
     layer.bindPopup("<div style='texto-aling:center'><h3>" +
         feature.properties.nombre +
         "</h3></div>");
-    //console.log(feature);
 }
 
 function borrar() {
