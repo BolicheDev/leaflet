@@ -6,24 +6,42 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Leaflet</title>
+    <link rel="shortcut icon" type="image/png" href="img/elogosolo.ico" />
+    <!-- JS - CSS librerias -->
+    <script src="js/jquery-3.4.1.min.js"></script>
     <!-- Leaflet -->
     <link rel="stylesheet" href="css/leaflet.css" />
     <script src="js/leaflet.js"></script>
     <script src="js/map.geojson.js"></script>
-    <script src="js/mimapa.js"></script>
-    <!-- Propio -->
-    <script src="js/jquery-3.4.1.min.js"></script>
+    <!-- Propio css-->
     <link rel="stylesheet" href="css/style.css" />
     <link rel="stylesheet" href="css/sprites.css" />
+    <!-- Propio js-->
+    <script src="js/objects.js"></script>
+    <script src="js/mimapa.js"></script>
+
 </head>
 
 <body>
     <div id="mapa">
 
     </div>
-    <button id="arte">Arte</button>
-    <button id="gastronomia">Gastronomia</button>
-    <button id="forklore">Forklore</button>
+
+    <button id="searchByCategories">Buscar</button>
+
+    <div class="categorias">
+        <ul>
+            <li class="letras-doradas"><input type="checkbox" name="categoria" value="Arte">Arte</li>
+            <li class="letras-doradas"><input type="checkbox" name="categoria" value="Gastronomia">Gastronomia</li>
+            <li class="letras-doradas"><input type="checkbox" name="categoria" value="Folklore">Folklore</li>
+            <li class="letras-doradas"><input type="checkbox" name="categoria" value="F. Patronales">F. Patronales</li>
+            <li class="letras-doradas"><input type="checkbox" name="categoria" value="Exposiciones">Exposiciones</li>
+            <li class="letras-doradas"><input type="checkbox" name="categoria" value="Teatro">Teatro</li>
+            <li class="letras-doradas"><input type="checkbox" name="categoria" value="Cine">Cine</li>
+        </ul>
+    </div>
+    <p>Latitud: <input type="text" id="lat"></p>
+    <p>Longitud: <input type="text" id="lng"></p>
 </body>
 
 </html>

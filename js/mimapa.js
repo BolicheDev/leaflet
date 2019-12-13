@@ -2,40 +2,7 @@
 
 window.onload = init;
 
-var arrayGlobales = {
-    'categorias': {
-        'Arte': [],
-        'Gastronomia': [],
-        'Folklore': [],
-        'F. Patronales': [],
-        'Exposiciones': [],
-        'Teatro': [],
-        'Cine': []
-    },
-    'mapa': '',
-    'popup': L.popup(),
-    'eventos': {}
-}
-
-var iconos = {
-    'colores': {
-        'Arte': 'amarillo',
-        'Gastronomia': 'azul',
-        'Folklore': 'naranja',
-        'Cine': 'morado',
-        'F. Patronales': 'rojo',
-        'Exposiciones': 'rosa',
-        'Teatro': 'verde'
-    },
-    'icono': function(categoria) {
-        return L.divIcon({
-            className: 'sprite ' + this.colores[categoria],
-            iconSize: [26, 45],
-            iconAnchor: [13, 45],
-            popupAnchor: [0, -45]
-        });
-    }
-}
+//map.getZoom()
 
 function init() {
     loadJson();
@@ -44,9 +11,7 @@ function init() {
 }
 
 function addEventButton() {
-    document.getElementById("arte").addEventListener("click", arte);
-    document.getElementById("gastronomia").addEventListener("click", gastronomia);
-    document.getElementById("forklore").addEventListener("click", folklore);
+    document.getElementById("searchByCategories").addEventListener("click", searchByCategories);
 }
 
 function loadMap() {
@@ -77,28 +42,9 @@ function loadDate() {
     }
 }
 
-function arte() {
+function searchByCategories() {
     clearMap();
-    arrayGlobales.categorias['Arte'].forEach(element => {
-        arrayGlobales.mapa.addLayer(element);
-        console.log(element);
-    });
-}
-
-function gastronomia() {
-    clearMap();
-    arrayGlobales.categorias['Gastronomia'].forEach(element => {
-        arrayGlobales.mapa.addLayer(element);
-        console.log(element);
-    });
-}
-
-function folklore() {
-    clearMap();
-    arrayGlobales.categorias['Folklore'].forEach(element => {
-        arrayGlobales.mapa.addLayer(element);
-        console.log(element);
-    });
+    updateMarkerMap();
 }
 
 function clearMap() {
@@ -111,13 +57,32 @@ function clearMap() {
     }
 }
 
+function updateMarkerMap() {
+    let categorias = document.getElementsByName("categoria");
+    categorias.forEach(categoria => {
+        if (categoria.checked) {
+            categoria = categoria.value;
+            if (arrayGlobales.categorias[categoria].length > 0) {
+                arrayGlobales.categorias[categoria].forEach(element => {
+                    arrayGlobales.mapa.addLayer(element);
+                });
+            }
+        }
+    })
+}
+
 function onMapClick(e) {
+    if (arrayGlobales.oldMarket != '') {
+        arrayGlobales.mapa.removeLayer(arrayGlobales.oldMarket);
+    }
     // arrayGlobales.popup
     //     .setLatLng(e.latlng)
     //     .setContent("You clicked the map at " + e.latlng.toString())
     //     .openOn(arrayGlobales.mapa);
-    L.marker([e.latlng.lat, e.latlng.lng], { icon: iconos.icono('Cine') }).addTo(arrayGlobales.mapa);
-    console.log(e.latlng);
+    arrayGlobales.oldMarket = L.marker([e.latlng.lat, e.latlng.lng], { icon: iconos.icono('Cine') });
+    arrayGlobales.oldMarket.addTo(arrayGlobales.mapa);
+    document.getElementById("lat").value = e.latlng.lat;
+    document.getElementById("lng").value = e.latlng.lng;
 }
 
 function loadJson() {
