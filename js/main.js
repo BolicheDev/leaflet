@@ -33,7 +33,7 @@ function loadDate() {
             filter: function(feature, layer) {
                 return feature.properties.categoria == categoria;
             },
-            onEachFeature: verMisPunto,
+            onEachFeature: showInfoMarker,
             pointToLayer: function(feature, latlng) {
                 return L.marker(latlng, { icon: iconos.icono(categoria) });
             }
@@ -85,28 +85,40 @@ function onMapClick(e) {
     document.getElementById("lng").value = e.latlng.lng;
 }
 
-function loadJson() {
-    $.ajax({
-        url: 'php/cargar.php',
-        cache: false,
-        method: 'POST',
-        type: 'json',
-        beforeSend: function() {
-            arrayGlobales.eventos = {};
-        },
-        success: function(result) {
-            var resultado = JSON.parse(result);
-            arrayGlobales.eventos = resultado;
-            loadDate();
-        },
-        error: function(jqXHR, textStatus, errorThrown) {
-            alert("error " + jqXHR.status + " " + errorThrown);
-        }
-    });
+function showInfoMarker(feature, layer) {
+    layer.bindPopup(createDivMarker(feature));
 }
 
-function verMisPunto(feature, layer) {
-    layer.bindPopup("<div style='texto-aling:center'><h3>" +
-        feature.properties.descripcion +
-        "</h3></div>");
+function createDivMarker(object) {
+    let divPrincipal = document.createElement("div");
+    let cabecera = document.createElement("div");
+    cabecera.classList.add("table-head");
+    cabecera.innerHTML = object.properties.titulo;
+    divPrincipal.append(cabecera);
+    /* -------- */
+    row = document.createElement("div");
+    row.classList.add("table-row")
+    izquierda = document.createElement("div");
+    izquierda.classList.add("table-cell");
+    izquierda.innerHTML = "Descripcion";
+    derecha = document.createElement("div");
+    derecha.classList.add("table-cell");
+    derecha.innerHTML = object.properties.descripcion;
+    row.append(izquierda);
+    row.append(derecha);
+    divPrincipal.append(row);
+    /* -------- */
+    row = document.createElement("div");
+    row.classList.add("table-row")
+    izquierda = document.createElement("div");
+    izquierda.classList.add("table-cell");
+    izquierda.innerHTML = "Categoria";
+    derecha = document.createElement("div");
+    derecha.classList.add("table-cell");
+    derecha.innerHTML = object.properties.categoria;
+    row.append(izquierda);
+    row.append(derecha);
+    divPrincipal.append(row);
+
+    return divPrincipal;
 }

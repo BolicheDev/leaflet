@@ -19,3 +19,19 @@ html {
 .categorias ul {
     list-style-type: none;
 }
+
+.table {
+    display: table;
+}
+
+.table-row {
+    display: table-row;
+}
+
+.table-cell {
+    display: table-cell;
+}
+
+.table-head {
+    display: table-header-group;
+}

@@ -6,7 +6,7 @@ use test_evento;
 drop table if exists eventos;
 create table eventos (
 	id_evento int auto_increment,
-    nombre varchar(200) not null,
+    titulo varchar(200) not null,
     descripcion text, 
     categoria varchar(60),
     lat double(40, 20),

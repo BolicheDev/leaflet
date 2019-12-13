@@ -29,4 +29,8 @@ while ($evento = $result->fetch_assoc()) {
     $texto['features'][] = $objetoCopia;
     //$arr_eventos[] = $evento;
 }
-print json_encode($texto);
+if (sizeof($texto) != 1) {
+    print json_encode($texto);
+} else {
+    print json_encode(null);
+}
