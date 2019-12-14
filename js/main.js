@@ -89,36 +89,43 @@ function showInfoMarker(feature, layer) {
     layer.bindPopup(createDivMarker(feature));
 }
 
-function createDivMarker(object) {
-    let divPrincipal = document.createElement("div");
-    let cabecera = document.createElement("div");
-    cabecera.classList.add("table-head");
-    cabecera.innerHTML = object.properties.titulo;
-    divPrincipal.append(cabecera);
-    /* -------- */
-    row = document.createElement("div");
-    row.classList.add("table-row")
-    izquierda = document.createElement("div");
-    izquierda.classList.add("table-cell");
-    izquierda.innerHTML = "Descripcion";
-    derecha = document.createElement("div");
-    derecha.classList.add("table-cell");
-    derecha.innerHTML = object.properties.descripcion;
-    row.append(izquierda);
-    row.append(derecha);
-    divPrincipal.append(row);
-    /* -------- */
-    row = document.createElement("div");
-    row.classList.add("table-row")
-    izquierda = document.createElement("div");
-    izquierda.classList.add("table-cell");
-    izquierda.innerHTML = "Categoria";
-    derecha = document.createElement("div");
-    derecha.classList.add("table-cell");
-    derecha.innerHTML = object.properties.categoria;
-    row.append(izquierda);
-    row.append(derecha);
-    divPrincipal.append(row);
+function createDivMarker(feature) {
+    let divMain = document.createElement("div");
+    let divTable = document.createElement("div");
+    divTable.classList.add("table");
+    createTitleDivMarker(divMain, feature.properties['titulo']);
+    for (let propiedad in feature.properties) {
+        if (propiedad != 'titulo') {
+            createBodyDivMarker(divMain, divTable, propiedad, feature.properties[propiedad]);
+        }
+    }
 
-    return divPrincipal;
+    return divMain;
+}
+
+function createTitleDivMarker(divMain, title) {
+    let divTabla = document.createElement("div");
+    let cabecera = document.createElement("div");
+    cabecera.classList.add("negrita");
+    cabecera.classList.add("texto-centro");
+    cabecera.innerHTML = title;
+    divTabla.append(cabecera);
+    divMain.append(divTabla);
+}
+
+function createBodyDivMarker(divMain, divTable, categorie, value) {
+    let row = document.createElement("div");
+    row.classList.add("table-row")
+    let izquierda = document.createElement("div");
+    izquierda.classList.add("table-cell");
+    izquierda.classList.add("negrita");
+    izquierda.classList.add("texto-derecha");
+    izquierda.innerHTML = categorie + ":";
+    let derecha = document.createElement("div");
+    derecha.classList.add("table-cell");
+    derecha.innerHTML = value;
+    row.append(izquierda);
+    row.append(derecha);
+    divTable.append(row);
+    divMain.append(divTable);
 }

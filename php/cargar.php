@@ -18,11 +18,11 @@ $result = $stmt->get_result();
 $conn->close();
 $arr_eventos = array();
 $texto = array('type' => 'FeatureCollection');
-$objeto = array('type' => 'Feature', 'properties' => array('nombre' => '','descripcion' => '', 'categoria' => ''), 'geometry' => array('type' => 'Point', 'coordinates' => []));
+$objeto = array('type' => 'Feature', 'properties' => array('titulo' => '','descripcion' => '', 'categoria' => ''), 'geometry' => array('type' => 'Point', 'coordinates' => []));
 
 while ($evento = $result->fetch_assoc()) {
     $objetoCopia = $objeto;
-    $objetoCopia['properties']['nombre'] = $evento['nombre'];
+    $objetoCopia['properties']['titulo'] = $evento['titulo'];
     $objetoCopia['properties']['categoria'] = $evento['categoria'];
     $objetoCopia['properties']['descripcion'] = $evento['descripcion'];
     $objetoCopia['geometry']['coordinates'] = [$evento['lng'], $evento['lat']];

@@ -21,6 +21,8 @@ html {
 }
 
 .table {
+    min-width: 100px;
+    max-width: 180px;
     display: table;
 }
 
@@ -30,8 +32,21 @@ html {
 
 .table-cell {
     display: table-cell;
+    max-width: 90px;
+    padding: 3px;
+    word-wrap: break-word;
+    text-transform: capitalize;
 }
 
-.table-head {
-    display: table-header-group;
+.negrita {
+    font-weight: bold;
+    text-transform: capitalize;
+}
+
+.texto-centro {
+    text-align: center;
+}
+
+.texto-derecha {
+    text-align: right;
 }
