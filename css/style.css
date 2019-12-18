@@ -1,5 +1,20 @@
 * {
     box-sizing: border-box;
+    font-size: 16px !important;
+    font-family: Courier New, Courier, Lucida Sans Typewriter, Lucida Typewriter, monospace !important;
+    --main-color-fondo: #403D50;
+    --main-color-letras: #C9AE7A;
+    --main-color-boton: #479046;
+}
+
+button {
+    background-color: var(--main-color-boton);
+    border-color: var(--main-color-boton);
+    border-width: 2px;
+    border-color: black;
+    border-radius: 8px;
+    padding: 5px 10px;
+    color: var(--main-color-letras) !important;
 }
 
 body,
@@ -8,10 +23,11 @@ html {
     height: 100vh;
     padding: 0;
     margin: 0;
+    background-color: var(--main-color-fondo) !important;
+    color: var(--main-color-letras) !important;
 }
 
 #mapa {
-    background-color: #fff;
     width: 1000px;
     height: 600px;
 }
