@@ -123,6 +123,7 @@ function createBodyDivMarker(divMain, divTable, categorie, value) {
     izquierda.innerHTML = categorie + ":";
     let derecha = document.createElement("div");
     derecha.classList.add("table-cell");
+    derecha.classList.add("right");
     derecha.innerHTML = value;
     row.append(izquierda);
     row.append(derecha);
